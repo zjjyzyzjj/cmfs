@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cmfs.dao.ZAlbumMapper">
+    <resultMap id="Base" type="com.cmfs.entity.ZAlbum">
+        <id column="aid"  property="id" />
+        <result column="aname" jdbcType="VARCHAR" property="name" />
+        <result column="score" jdbcType="VARCHAR" property="score" />
+        <result column="author" jdbcType="VARCHAR" property="author" />
+        <result column="beam" jdbcType="VARCHAR" property="beam" />
+        <result column="count" jdbcType="INTEGER" property="count" />
+        <result column="summary" jdbcType="VARCHAR" property="summary" />
+        <result column="img_path" jdbcType="VARCHAR" property="imgPath" />
+        <result column="issue_date" jdbcType="DATE" property="issueDate" />
+        <result column="status" jdbcType="VARCHAR" property="status" />
+        <collection property="chapters" javaType="ArrayList" ofType="com.cmfs.entity.ZChapter">
+            <id column="cid"  property="id" />
+            <result column="cname" jdbcType="VARCHAR" property="name" />
+        </collection>
+    </resultMap>
+    <select id="findById" parameterType="String" resultMap="Base">
+        select a.id aid,a.name aname,a.score,a.author,
+        a.beam,a.count,a.summary,a.img_path,a.issue_date,a.status,
+        c.id cid,c.name cname
+        from z_chapter c right join z_album a
+        on c.aubum_id=a.id
+        where a.id=#{id}
+    </select>
+</mapper>
